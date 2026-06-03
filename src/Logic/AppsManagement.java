@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class AppsManagement {
 
-    public static ArrayList<NxApp> addApps() {
+    public static ArrayList<NxApp> addNXApps() {
         ArrayList<NxApp> apps = new ArrayList<>();
         apps.add(new NxApp("Atmosphere", "https://github.com/Atmosphere-NX/Atmosphere"));
         apps.add(new NxApp("Hekate", "https://github.com/CTCaer/hekate"));
