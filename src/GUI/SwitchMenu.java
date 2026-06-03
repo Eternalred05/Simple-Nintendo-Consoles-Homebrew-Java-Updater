@@ -31,7 +31,7 @@ public class SwitchMenu extends javax.swing.JFrame {
         initComponents();
         // welcomeMessage();
         setLocationRelativeTo(null);
-        setTitle("Nintendo Homebrew Java Updater v1.2.0");
+        setTitle("Nintendo Homebrew Java Updater v1.3.1");
         configureTable();
         try {
             gitHubService = new GitHubService();
@@ -147,6 +147,7 @@ public class SwitchMenu extends javax.swing.JFrame {
         n3dsButton.setEnabled(false);
         Wii.setEnabled(false);
         WiiU.setEnabled(false);
+        vWii.setEnabled(false);
 
         lblStatus.setText("Loading latest versions...");
         progressBar.setIndeterminate(true);
@@ -206,6 +207,7 @@ public class SwitchMenu extends javax.swing.JFrame {
             n3dsButton.setEnabled(true);
             Wii.setEnabled(true);
             WiiU.setEnabled(true);
+            vWii.setEnabled(true);
 
             lblStatus.setText("Ready");
             progressBar.setIndeterminate(false);
@@ -239,6 +241,7 @@ public class SwitchMenu extends javax.swing.JFrame {
         WiiU = new javax.swing.JButton();
         reloadButton = new javax.swing.JButton();
         vWii = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -313,14 +316,17 @@ public class SwitchMenu extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("About");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(210, 210, 210))
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -345,6 +351,15 @@ public class SwitchMenu extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reloadButton))
                 .addGap(53, 53, 53))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(210, 210, 210))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addContainerGap())))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(41, 41, 41)
@@ -354,7 +369,9 @@ public class SwitchMenu extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(n3dsButton)
                     .addComponent(Wii)
@@ -388,6 +405,7 @@ public class SwitchMenu extends javax.swing.JFrame {
         n3dsButton.setEnabled(false);
         Wii.setEnabled(false);
         WiiU.setEnabled(false);
+        vWii.setEnabled(false);
         downloadAll.setText("Downloading...");
         lblStatus.setText("Please wait until all files are processed...");
         progressBar.setIndeterminate(true);
@@ -533,6 +551,7 @@ public class SwitchMenu extends javax.swing.JFrame {
             n3dsButton.setEnabled(false);
             Wii.setEnabled(false);
             WiiU.setEnabled(false);
+            vWii.setEnabled(false);
             jButton1.setText("Downloading selected...");
             lblStatus.setText("Please wait until all files are processed...");
             progressBar.setIndeterminate(true);
@@ -587,7 +606,9 @@ public class SwitchMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_n3dsButtonActionPerformed
 
     private void WiiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WiiActionPerformed
-        // TODO add your handling code here:
+        apps = AppsManagement.addDolphinApps();
+        addElements();
+        updateVersionsFromGitHub(this::onVersionsLoaded);
     }//GEN-LAST:event_WiiActionPerformed
 
     private void WiiUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WiiUActionPerformed
@@ -599,29 +620,36 @@ public class SwitchMenu extends javax.swing.JFrame {
     private void reloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadButtonActionPerformed
         if (isLoadingVersions) {
             JOptionPane.showMessageDialog(this, "Already loading versions, please wait.", "Busy", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
 
-        updateVersionsFromGitHub(() -> {
-            javax.swing.SwingUtilities.invokeLater(() -> {
-                downloadAll.setEnabled(true);
-                jButton1.setEnabled(true);
-                switchButton.setEnabled(true);
-                n3dsButton.setEnabled(true);
-                Wii.setEnabled(true);
-                WiiU.setEnabled(true);
-                reloadButton.setEnabled(true);
-                lblStatus.setText("Ready");
-                progressBar.setIndeterminate(false);
-                progressBar.setValue(0);
-                JOptionPane.showMessageDialog(this, "Versions reloaded successfully.", "Done", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            updateVersionsFromGitHub(() -> {
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    downloadAll.setEnabled(true);
+                    jButton1.setEnabled(true);
+                    switchButton.setEnabled(true);
+                    n3dsButton.setEnabled(true);
+                    Wii.setEnabled(true);
+                    WiiU.setEnabled(true);
+                    vWii.setEnabled(true);
+                    reloadButton.setEnabled(true);
+                    lblStatus.setText("Ready");
+                    progressBar.setIndeterminate(false);
+                    progressBar.setValue(0);
+                    JOptionPane.showMessageDialog(this, "Versions reloaded successfully.", "Done", JOptionPane.INFORMATION_MESSAGE);
+                });
             });
-        });
+        }
     }//GEN-LAST:event_reloadButtonActionPerformed
 
     private void vWiiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vWiiActionPerformed
-        // TODO add your handling code here:
+        apps = AppsManagement.addvWiiApps();
+        addElements();
+        updateVersionsFromGitHub(this::onVersionsLoaded);
     }//GEN-LAST:event_vWiiActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Small App Developed by EternalRed05, any sugerence can be made at https://github.com/Eternalred05/Simple-Nintendo-Consoles-Homebrew-Java-Updater ", "Information", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void startDownloadSelected(java.util.ArrayList<NxApp> selectedApps, int totalAssets) {
         new Thread(() -> {
@@ -731,6 +759,7 @@ public class SwitchMenu extends javax.swing.JFrame {
     private javax.swing.JTable appTable;
     private javax.swing.JButton downloadAll;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JButton n3dsButton;
