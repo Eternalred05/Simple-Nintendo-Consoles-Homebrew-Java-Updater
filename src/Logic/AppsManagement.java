@@ -61,6 +61,9 @@ public class AppsManagement {
         apps.add(new NxApp("re_nfpii", "https://github.com/GaryOderNichts/re_nfpii"));
         apps.add(new NxApp("WiiUIdent", "https://github.com/GaryOderNichts/WiiUIdent"));
         apps.add(new NxApp("GiveMiiYouTube", "https://github.com/PretendoNetwork/GiveMiiYouTube"));
+        apps.add(new NxApp("vWii-Decaffeinator", "https://github.com/GaryOderNichts/vWii-Decaffeinator"));
+        apps.add(new NxApp("UFDiine", "https://github.com/GaryOderNichts/UFDiine"));
+        apps.add(new NxApp("vWii-NAND-Restorer", "https://github.com/GaryOderNichts/vWii-NAND-Restorer"));
 
         // StroopWafel and Exploits (Credits to jan-hofmeir,dimok,rw,dkosmary and the rest of the wii u scene)
         apps.add(new NxApp("minute_minute", "https://github.com/StroopwafelCFW/minute_minute"));
@@ -89,6 +92,11 @@ public class AppsManagement {
         apps.add(new NxApp("WiiUCamera", "https://github.com/ClaudiWolf2056/WiiUCamera"));
         apps.add(new NxApp("savemii", "https://github.com/w3irDv/savemii"));
         apps.add(new NxApp("cafemp", "https://github.com/whateveritwas/cafemp"));
+        apps.add(new NxApp("vwii-compat-installer", "https://github.com/Xpl0itU/vwii-compat-installer"));
+        apps.add(new NxApp("c2w_patcher", "https://github.com/V10lator/c2w_patcher"));
+        apps.add(new NxApp("Inkay", "https://github.com/PretendoNetwork/Inkay"));
+        apps.add(new NxApp("Screenshot-Unlocker", "https://github.com/dkosmari/Screenshot-Unlocker"));
+
         return apps;
     }
 
@@ -118,15 +126,26 @@ public class AppsManagement {
 
     public static ArrayList<NxApp> addDolphinApps() {
         ArrayList<NxApp> apps = new ArrayList<>();
-        apps.add(new NxApp("", ""));
-        apps.add(new NxApp("", ""));
-        apps.add(new NxApp("", ""));
+        apps.add(new NxApp("mailboxbomb", "https://github.com/giantpune/mailboxbomb"));
+        apps.add(new NxApp("d2x-cios", "https://github.com/wiidev/d2x-cios"));
+        apps.add(new NxApp("Nintendont", "https://github.com/FIX94/Nintendont"));
+        apps.add(new NxApp("usbloadergx", " https://github.com/wiidev/usbloadergx"));
+        apps.add(new NxApp("WiiFlow_Lite", "https://github.com/Fledge68/WiiFlow_Lite"));
+        apps.add(new NxApp("cleanrip", "https://github.com/emukidid/cleanrip"));
+        apps.add(new NxApp("ftpii", "https://github.com/joedj/ftpii"));
+        apps.add(new NxApp("WiiMC-SSLC", "https://github.com/SuperrSonic/WiiMC-SSLC"));
+        apps.add(new NxApp("YAWM-ModMii-Edition", "https://github.com/modmii/YAWM-ModMii-Edition"));
+        apps.add(new NxApp("priiloader", "https://github.com/dacotaco/priiloader"));
         return apps;
     }
 
     public static ArrayList<NxApp> addvWiiApps() {
         ArrayList<NxApp> apps = new ArrayList<>();
-        apps.add(new NxApp("", ""));
+        apps.add(new NxApp("d2x-cios", "https://github.com/wiidev/d2x-cios"));
+        apps.add(new NxApp("Nintendont", "https://github.com/FIX94/Nintendont"));
+        apps.add(new NxApp("cleanrip", "https://github.com/emukidid/cleanrip"));
+        apps.add(new NxApp("priiloader", "https://github.com/dacotaco/priiloader"));
+        apps.add(new NxApp("usbloadergx", " https://github.com/wiidev/usbloadergx"));
         return apps;
     }
 
