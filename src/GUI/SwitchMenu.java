@@ -31,7 +31,7 @@ public class SwitchMenu extends javax.swing.JFrame {
         initComponents();
         // welcomeMessage();
         setLocationRelativeTo(null);
-        setTitle("Nintendo Homebrew Java Updater v1.0.5");
+        setTitle("Nintendo Homebrew Java Updater v1.1.0");
         configureTable();
         try {
             gitHubService = new GitHubService();
@@ -173,7 +173,7 @@ public class SwitchMenu extends javax.swing.JFrame {
                         app.setVersion(latestVersion);
                         model.setValueAt(latestVersion, row, 3);
                     } else {
-                        model.setValueAt("Error", row, 3);
+                        model.setValueAt("Unknown", row, 3);
                     }
 
                     pendingVersionTasks--;
@@ -565,8 +565,6 @@ public class SwitchMenu extends javax.swing.JFrame {
     private void switchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         apps = AppsManagement.addNXApps();
         addElements();
-        apps = AppsManagement.addNXApps();
-        addElements();
         updateVersionsFromGitHub(this::onVersionsLoaded);
 
     }//GEN-LAST:event_switchButtonActionPerformed
@@ -580,7 +578,9 @@ public class SwitchMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_WiiActionPerformed
 
     private void WiiUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WiiUActionPerformed
-        // TODO add your handling code here:
+        apps = AppsManagement.addCafeApps();
+        addElements();
+        updateVersionsFromGitHub(this::onVersionsLoaded);
     }//GEN-LAST:event_WiiUActionPerformed
 
     private void reloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadButtonActionPerformed
