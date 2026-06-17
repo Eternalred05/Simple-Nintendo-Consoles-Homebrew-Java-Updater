@@ -21,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
 import org.kohsuke.github.GHAsset;
 
 public class SwitchMenu extends javax.swing.JFrame {
-
+    
     ArrayList<NxApp> apps = new ArrayList<>();
     private GitHubService gitHubService;
     private int pendingVersionTasks = 0;
     private boolean isLoadingVersions = false;
-
+    
     public SwitchMenu() {
         initComponents();
         // welcomeMessage();
@@ -41,7 +41,7 @@ public class SwitchMenu extends javax.swing.JFrame {
                     "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
-
+    
     private int countTotalAssets(ArrayList<NxApp> appsList) {
         int total = 0;
         for (NxApp app : appsList) {
@@ -52,7 +52,7 @@ public class SwitchMenu extends javax.swing.JFrame {
         }
         return total;
     }
-
+    
     private void downloadFile(String fileURL, String outputPath) throws IOException {
         URL url = new URL(fileURL);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
@@ -60,14 +60,14 @@ public class SwitchMenu extends javax.swing.JFrame {
         httpConn.setConnectTimeout(30000);
         httpConn.setReadTimeout(60000);
         httpConn.setInstanceFollowRedirects(true);
-
+        
         Path outputFile = Paths.get(outputPath);
         Path parentDir = outputFile.getParent();
         if (parentDir != null && !Files.exists(parentDir)) {
             Files.createDirectories(parentDir);
             System.out.println("Folder Created: " + parentDir);
         }
-
+        
         try (InputStream inputStream = httpConn.getInputStream()) {
             Files.copy(inputStream, outputFile, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("File Created: " + outputFile.toAbsolutePath());
@@ -75,14 +75,14 @@ public class SwitchMenu extends javax.swing.JFrame {
             httpConn.disconnect();
         }
     }
-
+    
     private void updateProgressAssets(int current, int total) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             progressBar.setValue(current);
             progressBar.setString(current + "/" + total);
         });
     }
-
+    
     private void downloadAsset(GHAsset asset, String downloadDir) throws IOException {
         String fileName = asset.getName();
         String downloadUrl = asset.getBrowserDownloadUrl();
@@ -90,11 +90,11 @@ public class SwitchMenu extends javax.swing.JFrame {
         downloadFile(downloadUrl, outputPath);
         System.out.println("Asset downloaded: " + fileName);
     }
-
+    
     private void welcomeMessage() {
         JOptionPane.showMessageDialog(null, "This Application was developed by EternalRed05, any sugerences can be made via github issues. Thanks for using!.", "Welcome", JOptionPane.INFORMATION_MESSAGE);
     }
-
+    
     private void addElements() {
         DefaultTableModel model = (DefaultTableModel) appTable.getModel();
         model.setRowCount(0);
@@ -102,9 +102,9 @@ public class SwitchMenu extends javax.swing.JFrame {
             Object[] o = new Object[]{n.getName(), n.getRepoOwner(), n.getUrl(), n.getVersion()};
             model.addRow(o);
         }
-
+        
     }
-
+    
     private void configureTable() {
         String[] columnas = {"App Name", "Developer", "Source", "Latest Version"};
         DefaultTableModel model = new DefaultTableModel(columnas, 0) {
@@ -119,11 +119,11 @@ public class SwitchMenu extends javax.swing.JFrame {
         appTable.getColumnModel().getColumn(1).setPreferredWidth(120);
         appTable.getColumnModel().getColumn(2).setPreferredWidth(300);
         appTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-
+        
     }
-
+    
     private void updateVersionsFromGitHub(Runnable onComplete) {
-
+        
         if (isLoadingVersions) {
             System.out.println("Already loading versions, ignoring request.");
             return;
@@ -134,57 +134,57 @@ public class SwitchMenu extends javax.swing.JFrame {
             }
             return;
         }
-
+        
         isLoadingVersions = true;
         pendingVersionTasks = apps.size();
-
+        
         downloadAll.setEnabled(false);
         jButton1.setEnabled(false);
         if (reloadButton != null) {
             reloadButton.setEnabled(false);
         }
-
+        
         switchButton.setEnabled(false);
         n3dsButton.setEnabled(false);
         Wii.setEnabled(false);
         WiiU.setEnabled(false);
         vWii.setEnabled(false);
-
+        
         lblStatus.setText("Loading latest versions...");
         progressBar.setIndeterminate(true);
-
+        
         DefaultTableModel model = (DefaultTableModel) appTable.getModel();
-
+        
         for (int i = 0; i < apps.size(); i++) {
             final int row = i;
             final NxApp app = apps.get(i);
-
+            
             new SwingWorker<Void, Void>() {
                 private String latestVersion;
-
+                
                 @Override
                 protected Void doInBackground() {
                     latestVersion = gitHubService.getLatestVersion(app.getRepoOwner(), app.getRepoName());
                     return null;
                 }
-
+                
                 @Override
                 protected void done() {
-
+                    
                     if (latestVersion != null && !latestVersion.equals("Error")) {
                         app.setVersion(latestVersion);
                         model.setValueAt(latestVersion, row, 3);
                     } else {
                         model.setValueAt("Unknown", row, 3);
                     }
-
+                    
                     pendingVersionTasks--;
                     javax.swing.SwingUtilities.invokeLater(() -> {
                         if (pendingVersionTasks > 0) {
                             lblStatus.setText("Loading versions... (" + pendingVersionTasks + " remaining)");
                         }
                     });
-
+                    
                     if (pendingVersionTasks == 0) {
                         isLoadingVersions = false;
                         if (onComplete != null) {
@@ -195,10 +195,10 @@ public class SwitchMenu extends javax.swing.JFrame {
             }.execute();
         }
     }
-
+    
     private void onVersionsLoaded() {
         javax.swing.SwingUtilities.invokeLater(() -> {
-
+            
             downloadAll.setEnabled(true);
             jButton1.setEnabled(true);
             if (reloadButton != null) {
@@ -209,11 +209,11 @@ public class SwitchMenu extends javax.swing.JFrame {
             Wii.setEnabled(true);
             WiiU.setEnabled(true);
             vWii.setEnabled(true);
-
+            
             lblStatus.setText("Ready");
             progressBar.setIndeterminate(false);
             progressBar.setValue(0);
-
+            
             JOptionPane.showMessageDialog(SwitchMenu.this,
                     "All versions have been updated.",
                     "Information",
@@ -410,13 +410,13 @@ public class SwitchMenu extends javax.swing.JFrame {
         downloadAll.setText("Downloading...");
         lblStatus.setText("Please wait until all files are processed...");
         progressBar.setIndeterminate(true);
-
+        
         new SwingWorker<Integer, Void>() {
             @Override
             protected Integer doInBackground() {
                 return countTotalAssets(apps);
             }
-
+            
             @Override
             protected void done() {
                 try {
@@ -430,7 +430,7 @@ public class SwitchMenu extends javax.swing.JFrame {
                         restoreButtons();
                         return;
                     }
-
+                    
                     startDownloadAll(totalAssets);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -445,11 +445,12 @@ public class SwitchMenu extends javax.swing.JFrame {
         javax.swing.SwingUtilities.invokeLater(() -> {
             downloadAll.setEnabled(true);
             jButton1.setEnabled(true);
-            switchButton.setEnabled(false);
-            n3dsButton.setEnabled(false);
-            Wii.setEnabled(false);
-            WiiU.setEnabled(false);
-            vWii.setEnabled(false);
+            switchButton.setEnabled(true);
+            n3dsButton.setEnabled(true);
+            Wii.setEnabled(true);
+            WiiU.setEnabled(true);
+            vWii.setEnabled(true);
+            reloadButton.setEnabled(true);
             downloadAll.setText("Download All Apps");
             jButton1.setText("Download Selected");
             lblStatus.setText("Ready");
@@ -457,42 +458,42 @@ public class SwitchMenu extends javax.swing.JFrame {
             progressBar.setString("");
         });
     }
-
+    
     private void startDownloadAll(int totalAssets) {
         new Thread(() -> {
             int processedAssets = 0;
             int successApps = 0;
             StringBuilder errors = new StringBuilder();
-
+            
             for (int i = 0; i < apps.size(); i++) {
                 NxApp app = apps.get(i);
                 final int appIndex = i + 1;
                 javax.swing.SwingUtilities.invokeLater(() -> {
                     lblStatus.setText("Processing " + app.getName() + " (" + appIndex + "/" + apps.size() + ")");
                 });
-
+                
                 String version = app.getVersion();
                 if (version == null || version.equals("Unknown") || version.equals("Error")) {
                     errors.append("• ").append(app.getName()).append(": Version not available\n");
                     continue;
                 }
-
+                
                 try {
                     List<GHAsset> assets = gitHubService.getReleaseAssets(app.getRepoOwner(), app.getRepoName());
                     if (assets == null || assets.isEmpty()) {
                         errors.append("• ").append(app.getName()).append(": No assets in release\n");
                         continue;
                     }
-
+                    
                     String appFolder = System.getProperty("user.home") + "/Downloads/NxAppDownloader/"
                             + app.getName().replaceAll("\\s+", "_") + " " + app.getVersion().replaceAll("\\s+", "_");
                     java.nio.file.Files.createDirectories(java.nio.file.Paths.get(appFolder));
-
+                    
                     for (GHAsset asset : assets) {
                         try {
                             downloadAsset(asset, appFolder);
                             processedAssets++;
-
+                            
                             final int currentProcessed = processedAssets;
                             javax.swing.SwingUtilities.invokeLater(() -> {
                                 progressBar.setValue(currentProcessed);
@@ -508,7 +509,7 @@ public class SwitchMenu extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
             }
-
+            
             final int finalSuccessApps = successApps;
             final int finalProcessedAssets = processedAssets;
             final String finalErrors = errors.toString();
@@ -524,14 +525,14 @@ public class SwitchMenu extends javax.swing.JFrame {
             });
         }).start();
     }
-
+    
     private void updateProgressSelected(int current, int total) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             progressBar.setValue(current);
             progressBar.setString(current + "/" + total);
         });
     }
-
+    
     private void updateProgress(int value) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             progressBar.setValue(value);
@@ -550,7 +551,7 @@ public class SwitchMenu extends javax.swing.JFrame {
             for (int row : selectedRows) {
                 selectedApps.add(apps.get(row));
             }
-
+            
             downloadAll.setEnabled(false);
             jButton1.setEnabled(false);
             switchButton.setEnabled(false);
@@ -562,13 +563,13 @@ public class SwitchMenu extends javax.swing.JFrame {
             jButton1.setText("Downloading selected...");
             lblStatus.setText("Please wait until all files are processed...");
             progressBar.setIndeterminate(true);
-
+            
             new SwingWorker<Integer, Void>() {
                 @Override
                 protected Integer doInBackground() {
                     return countTotalAssets(selectedApps);
                 }
-
+                
                 @Override
                 protected void done() {
                     try {
@@ -627,7 +628,7 @@ public class SwitchMenu extends javax.swing.JFrame {
     private void reloadButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         if (isLoadingVersions) {
             JOptionPane.showMessageDialog(this, "Already loading versions, please wait.", "Busy", JOptionPane.INFORMATION_MESSAGE);
-
+            
         } else {
             updateVersionsFromGitHub(() -> {
                 javax.swing.SwingUtilities.invokeLater(() -> {
@@ -657,37 +658,37 @@ public class SwitchMenu extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         JOptionPane.showMessageDialog(null, "Small App Developed by EternalRed05, any sugerence can be made at https://github.com/Eternalred05/Simple-Nintendo-Consoles-Homebrew-Java-Updater ", "Information", JOptionPane.INFORMATION_MESSAGE);
     }                                        
-
+    
     private void startDownloadSelected(java.util.ArrayList<NxApp> selectedApps, int totalAssets) {
         new Thread(() -> {
             int processedAssets = 0;
             int successApps = 0;
             StringBuilder errors = new StringBuilder();
-
+            
             for (int i = 0; i < selectedApps.size(); i++) {
                 NxApp app = selectedApps.get(i);
                 final int appIndex = i + 1;
                 javax.swing.SwingUtilities.invokeLater(() -> {
                     lblStatus.setText("Processing " + app.getName() + " (" + appIndex + "/" + selectedApps.size() + ")");
                 });
-
+                
                 String version = app.getVersion();
                 if (version == null || version.equals("Unknown") || version.equals("Error")) {
                     errors.append("• ").append(app.getName()).append(": Version not available\n");
                     continue;
                 }
-
+                
                 try {
                     java.util.List<org.kohsuke.github.GHAsset> assets = gitHubService.getReleaseAssets(app.getRepoOwner(), app.getRepoName());
                     if (assets == null || assets.isEmpty()) {
                         errors.append("• ").append(app.getName()).append(": No assets in release\n");
                         continue;
                     }
-
+                    
                     String appFolder = System.getProperty("user.home") + "/Downloads/NxAppDownloader/"
                             + app.getName().replaceAll("\\s+", "_") + " " + app.getVersion().replaceAll("\\s+", "_");
                     java.nio.file.Files.createDirectories(java.nio.file.Paths.get(appFolder));
-
+                    
                     for (org.kohsuke.github.GHAsset asset : assets) {
                         try {
                             downloadAsset(asset, appFolder);
@@ -707,7 +708,7 @@ public class SwitchMenu extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
             }
-
+            
             final int finalSuccessApps = successApps;
             final int finalProcessedAssets = processedAssets;
             final String finalErrors = errors.toString();
