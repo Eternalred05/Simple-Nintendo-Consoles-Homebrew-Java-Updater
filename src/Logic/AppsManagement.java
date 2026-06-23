@@ -40,7 +40,11 @@ public class AppsManagement {
         apps.add(new NxApp("sysHaze", "https://github.com/masagrator/sysHaze"));
         apps.add(new NxApp("HOC-Toolkit", "https://github.com/ppkantorski/HOC-Toolkit"));
         apps.add(new NxApp("Status-Monitor-Deux", "https://github.com/masagrator/Status-Monitor-Deux"));
-        
+        apps.add(new NxApp("Horizon-OC ppkantorski Fork", "https://github.com/ppkantorski/Horizon-OC"));
+        apps.add(new NxApp("Sphaira TomVita", "https://github.com/tomvita/sphaira"));
+        apps.add(new NxApp("Sphaira TomVita", "https://github.com/tomvita/sphaira"));
+        apps.add(new NxApp("Breeze Overlay", "https://github.com/tomvita/Breezehand-Overlay"));
+        apps.add(new NxApp("Breeze Beta App", "https://github.com/tomvita/Breeze-Beta"));
 
         return apps;
     }
