@@ -10,6 +10,7 @@ public class AppsManagement {
         apps.add(new NxApp("Atmosphere", "https://github.com/Atmosphere-NX/Atmosphere"));
         apps.add(new NxApp("Hekate", "https://github.com/CTCaer/hekate"));
         apps.add(new NxApp("MissionControl", "https://github.com/ndeadly/MissionControl"));
+        apps.add(new NxApp("Salty-NX", "https://github.com/masagrator/SaltyNX"));
         apps.add(new NxApp("sys-patch", "https://github.com/impeeza/sys-patch"));
         apps.add(new NxApp("nx-ovlloader", "https://github.com/ppkantorski/nx-ovlloader"));
         apps.add(new NxApp("Ultrahand-Overlay", "https://github.com/ppkantorski/Ultrahand-Overlay"));
@@ -42,9 +43,10 @@ public class AppsManagement {
         apps.add(new NxApp("Status-Monitor-Deux", "https://github.com/masagrator/Status-Monitor-Deux"));
         apps.add(new NxApp("Horizon-OC ppkantorski Fork", "https://github.com/ppkantorski/Horizon-OC"));
         apps.add(new NxApp("Sphaira TomVita", "https://github.com/tomvita/sphaira"));
-        apps.add(new NxApp("Sphaira TomVita", "https://github.com/tomvita/sphaira"));
         apps.add(new NxApp("Breeze Overlay", "https://github.com/tomvita/Breezehand-Overlay"));
         apps.add(new NxApp("Breeze Beta App", "https://github.com/tomvita/Breeze-Beta"));
+        apps.add(new NxApp("DekoPon 3DS Emulator", "https://github.com/PalindromicBreadLoaf/dekopon"));
+        apps.add(new NxApp("Lockpick-RCM", "https://github.com/THZoria/Lockpick_RCMaster"));
 
         return apps;
     }
