@@ -11,12 +11,14 @@ public class AppsManagement {
         apps.add(new NxApp("Hekate", "https://github.com/CTCaer/hekate"));
         apps.add(new NxApp("MissionControl", "https://github.com/ndeadly/MissionControl"));
         apps.add(new NxApp("Salty-NX", "https://github.com/masagrator/SaltyNX"));
+        apps.add(new NxApp("Salty-NX-Tool", "https://github.com/masagrator/SaltyNX-Tool"));
+        apps.add(new NxApp("FPS-Locker", "https://github.com/masagrator/FPSLocker"));
         apps.add(new NxApp("sys-patch", "https://github.com/impeeza/sys-patch"));
         apps.add(new NxApp("nx-ovlloader", "https://github.com/ppkantorski/nx-ovlloader"));
         apps.add(new NxApp("Ultrahand-Overlay", "https://github.com/ppkantorski/Ultrahand-Overlay"));
         apps.add(new NxApp("ovl-sysmodules", "https://github.com/ppkantorski/ovl-sysmodules"));
         apps.add(new NxApp("Status-Monitor-Overlay", "https://github.com/ppkantorski/Status-Monitor-Overlay"));
-        apps.add(new NxApp("FPSLocker", "https://github.com/ppkantorski/FPSLocker"));
+        apps.add(new NxApp("FPSLocker by bord2death", "https://github.com/ppkantorski/FPSLocker"));
         apps.add(new NxApp("sys-clk", "https://github.com/ppkantorski/sys-clk"));
         apps.add(new NxApp("ReverseNX-RT", "https://github.com/ppkantorski/ReverseNX-RT"));
         apps.add(new NxApp("sysdvr-overlay", "https://github.com/ppkantorski/sysdvr-overlay"));
